@@ -1,0 +1,13 @@
+replicaCount: 1
+
+image:
+  repository: gcr.io/bamboo-diode-456912-p9/aerospike-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+
+aerospike:
+  host: "35.244.34.122"
