@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-aerospike-app
+  name: aerospike-app
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
