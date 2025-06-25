@@ -52,7 +52,7 @@ pipeline {
         stage('Deploy to GKE') {
             steps {
                 bat """
-                helm upgrade --install test-aerospike-app helm-charts/ --values helm-charts/dev-values/aerospike.yaml --set image.tag=latest
+                helm upgrade --install aerospike-app helm-charts --values helm-charts/dev-values/aerospike.yaml --set image.repository=${image_repo} --set image.tag=${image_tag}
                 """
             }
         }
