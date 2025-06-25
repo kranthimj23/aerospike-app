@@ -10,18 +10,27 @@ pipeline {
         ZONE = 'asia-south1'
         GCP_KEY = 'C:\\Users\\himan\\Downloads\\devops-lab-ci\\flask-gke-helm\\jenkins-sa-key.json'
         PYTHON_EXEC = 'C:\\Users\\himan\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
+        GIT_CREDENTIALS_ID = credentials('Jenkins-cred-new')
+
     }
 
     stages {
  
-        stage('Checkout') {
- 
+       stage('Checkout with credentials') {
             steps {
- 
-                checkout scm
- 
+                deleteDir()
+                script {
+                    withCredentials([string(credentialsId: 'Jenkins-cred-new', variable: 'GIT_TOKEN')]) {
+                        checkout([
+                            $class: 'GitSCM',
+                            branches: [[name: "*/dev1"]],
+                            userRemoteConfigs: [[
+                                url: "https://${GIT_TOKEN}@github.com/kranthimj23/aerospike-app.git"
+                            ]]
+                        ])
+                    }
+                }
             }
- 
         }
 
         stage('Authenticate with GCP') {
