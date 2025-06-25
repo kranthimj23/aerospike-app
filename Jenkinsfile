@@ -53,7 +53,7 @@ pipeline {
             steps {
                 bat """
                 gcloud container clusters get-credentials ${env.CLUSTER} --zone ${env.ZONE} --project ${env.PROJECT_ID}
-                helm upgrade --install aerospike-app helm-charts --values helm-charts/dev-values/aerospike.yaml --set image.repository=${image_repo} --set image.tag=${image_tag}
+                helm upgrade --install aerospike-app helm-charts --values helm-charts/dev-values/aerospike.yaml -n dev --set image.repository=${image_repo} --set image.tag=${image_tag}
                 """
             }
         }
