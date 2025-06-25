@@ -10,10 +10,10 @@ spec:
   template:
     metadata:
       labels:
-        app: test-aerospike-app
+        app: aerospike-app
     spec:
       containers:
-        - name: test-aerospike-app
+        - name: aerospike-app
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
