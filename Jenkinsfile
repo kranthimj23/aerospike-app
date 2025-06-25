@@ -1,27 +1,59 @@
+def image_repo = ''
+def image_tag = ''
+
 pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "gcr.io/YOUR_PROJECT_ID/test-aerospike-app"
+        PROJECT_ID = 'bamboo-diode-456912-p9'
+        CLUSTER = 'autopilot-cluster-1'
+        ZONE = 'asia-south1'
+        GCP_KEY = 'C:\\Users\\himan\\Downloads\\devops-lab-ci\\flask-gke-helm\\jenkins-sa-key.json'
+        PYTHON_EXEC = 'C:\\Users\\himan\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
     }
 
     stages {
-        stage('Docker Build') {
+ 
+        stage('Checkout') {
+ 
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+ 
+                checkout scm
+ 
+            }
+ 
+        }
+
+        stage('Authenticate with GCP') {
+            steps {
+                bat """
+                    gcloud auth activate-service-account --key-file="${env.GCP_KEY}"
+                    gcloud config set project ${env.PROJECT_ID}
+                    gcloud auth configure-docker asia-south1-docker.pkg.dev --quiet
+                """
             }
         }
 
-        stage('Push to GCR') {
+        stage('Build Docker Image') {
             steps {
-                sh 'gcloud auth configure-docker'
-                sh 'docker push $IMAGE_NAME'
+                script {
+                    image_repo = "asia-south1-docker.pkg.dev/${env.PROJECT_ID}/aerospike-app/aeropike"
+                    image_tag = "${BUILD_NUMBER}-${env.env_namespace}"
+                    def image_full = "${image_repo}:${image_tag}"
+
+                    bat """
+                        docker build -t ${image_full} .
+                        docker push ${image_full}
+                    """
+                }
             }
         }
 
         stage('Deploy to GKE') {
             steps {
-                sh 'helm upgrade --install test-aerospike-app helm-charts/ --values helm-charts/dev-values/aerospike.yaml --set image.tag=latest'
+                bat """
+                helm upgrade --install test-aerospike-app helm-charts/ --values helm-charts/dev-values/aerospike.yaml --set image.tag=latest
+                """
             }
         }
     }
