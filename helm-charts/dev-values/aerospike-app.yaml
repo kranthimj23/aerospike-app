@@ -1,13 +1,10 @@
-replicaCount: 1
-
-image:
-  repository: gcr.io/bamboo-diode-456912-p9/aerospike-app
-  tag: latest
-  pullPolicy: IfNotPresent
-
-service:
-  type: LoadBalancer
-  port: 80
-
 aerospike:
-  host: "34.93.23.213"
+  host: 34.93.23.213
+image:
+  pullPolicy: IfNotPresent
+  repository: asia-south1-docker.pkg.dev/devops-ai-labs-1/aerospike-app/aerospike
+  tag: 15-dev
+replicaCount: 1
+service:
+  port: 80
+  type: LoadBalancer
