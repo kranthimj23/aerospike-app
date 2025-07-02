@@ -10,4 +10,4 @@ service:
   port: 80
 
 aerospike:
-  host: "35.244.34.122"
+  host: "34.93.23.213"
