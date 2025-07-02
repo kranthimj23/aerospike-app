@@ -3,10 +3,9 @@ aerospike:
 image:
   pullPolicy: IfNotPresent
   repository: asia-south1-docker.pkg.dev/devops-ai-labs-1/aerospike-app/aerospike
-  tag: 15-dev
+  tag: 16-dev
 replicaCount: 1
-
 service:
-  type: NodePort
-  port: 80
   nodePort: 30081
+  port: 80
+  type: NodePort
