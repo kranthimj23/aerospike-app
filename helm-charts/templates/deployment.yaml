@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-aerospike-app
+  name: aerospike-app
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: test-aerospike-app
+      app: aerospike-app
   template:
     metadata:
       labels:
-        app: test-aerospike-app
+        app: aerospike-app
     spec:
       containers:
         - name: test-aerospike-app
