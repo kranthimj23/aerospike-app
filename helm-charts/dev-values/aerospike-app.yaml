@@ -5,6 +5,8 @@ image:
   repository: asia-south1-docker.pkg.dev/devops-ai-labs-1/aerospike-app/aerospike
   tag: 15-dev
 replicaCount: 1
+
 service:
+  type: NodePort
   port: 80
-  type: LoadBalancer
+  nodePort: 30081
