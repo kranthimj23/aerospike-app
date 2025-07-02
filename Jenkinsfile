@@ -10,14 +10,26 @@ pipeline {
         ZONE = 'asia-south1'
         GCP_KEY = 'C:\\Users\\devops-ai-labs-1-ffe9cbe45593.json'
         PYTHON_EXEC = 'C:\\Python313\\python.exe'
+        GIT_CREDENTIALS_ID = credentials('jenkins-token')
         //PYTHON_EXEC = 'C:\\Users\\himan\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
     }
 
     stages {
  
-        stage('Checkout') {
+        stage('Checkout with credentials') {
             steps {
-                checkout scm
+                deleteDir()
+                script {
+                    withCredentials([string(credentialsId: 'jenkins-token', variable: 'GIT_TOKEN')]) {
+                        checkout([
+                            $class: 'GitSCM',
+                            branches: [[name: "*/dev"]],
+                            userRemoteConfigs: [[
+                                url: "https://${GIT_TOKEN}@github.com/kranthimj23/aerospike-app.git"
+                            ]]
+                        ])
+                    }
+                }
             }
         }
 
