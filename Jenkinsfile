@@ -69,20 +69,22 @@ pipeline {
                 """
 
                 configFileProvider([configFile(fileId: 'deploy_to_gke', targetLocation: 'deploy_to_gke.py')]) {
-                     script {
-                            def pythonCommand = """
-                                set CLUSTER=${env.CLUSTER}
-                                set ZONE=${env.ZONE}
-                                set PROJECT_ID=${env.PROJECT_ID}
-                                echo Running Python script...
-                                ${env.PYTHON_EXEC} deploy_to_gke.py ${env.env_namespace} ${image_repo} ${image_tag} ${env.github_url} ${env.microservice} 
-                            """
-                        
-                            echo "Executing Python Deployment Script..."
-                        
-                            def result = bat(script: pythonCommand, returnStdout: true).trim()
-                            echo "Deployment Output:\n${result}"
-                        }
+                    withCredentials([string(credentialsId: 'jenkins-token', variable: 'GIT_TOKEN')]) {
+                         script {
+                                def pythonCommand = """
+                                    set CLUSTER=${env.CLUSTER}
+                                    set ZONE=${env.ZONE}
+                                    set PROJECT_ID=${env.PROJECT_ID}
+                                    echo Running Python script...
+                                    ${env.PYTHON_EXEC} deploy_to_gke.py ${env.env_namespace} ${image_repo} ${image_tag} ${env.github_url} ${env.microservice} 
+                                """
+                            
+                                echo "Executing Python Deployment Script..."
+                            
+                                def result = bat(script: pythonCommand, returnStdout: true).trim()
+                                echo "Deployment Output:\n${result}"
+                            }
+                    }
                 }
             }
         }
