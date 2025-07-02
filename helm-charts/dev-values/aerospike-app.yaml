@@ -3,7 +3,7 @@ aerospike:
 image:
   pullPolicy: IfNotPresent
   repository: asia-south1-docker.pkg.dev/devops-ai-labs-1/aerospike-app/aerospike
-  tag: 16-dev
+  tag: 17-dev
 replicaCount: 1
 service:
   nodePort: 30081
