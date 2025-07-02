@@ -35,7 +35,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    image_repo = "asia-south1-docker.pkg.dev/${env.PROJECT_ID}/service-user/user"
+                    image_repo = "asia-south1-docker.pkg.dev/${env.PROJECT_ID}/aerospike-app/aerospike"
                     image_tag = "${BUILD_NUMBER}-${env.env_namespace}"
                     def image_full = "${image_repo}:${image_tag}"
 
