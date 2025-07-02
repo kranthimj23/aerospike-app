@@ -6,7 +6,7 @@ pipeline {
 
     environment {
         PROJECT_ID = 'devops-ai-labs-1'
-        CLUSTER = 'demo-gke-cluster'
+        CLUSTER = 'autopilot-cluster-1'
         ZONE = 'asia-south1'
         GCP_KEY = 'C:\\Users\\devops-ai-labs-1-ffe9cbe45593.json'
         PYTHON_EXEC = 'C:\\Python313\\python.exe'
@@ -75,7 +75,7 @@ pipeline {
                                 set ZONE=${env.ZONE}
                                 set PROJECT_ID=${env.PROJECT_ID}
                                 echo Running Python script...
-                                ${env.PYTHON_EXEC} deploy_to_gke.py ${env.env_namespace} ${image_repo} ${image_tag} ${env.github_url} ${env.microservice}
+                                ${env.PYTHON_EXEC} deploy_to_gke.py ${env.env_namespace} ${image_repo} ${image_tag} ${env.github_url} ${env.microservice} ${env.github_token}
                             """
                         
                             echo "Executing Python Deployment Script..."
