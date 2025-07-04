@@ -1,0 +1,11 @@
+aerospike:
+  host: 34.93.23.213
+image:
+  pullPolicy: IfNotPresent
+  repository: asia-south1-docker.pkg.dev/devops-ai-labs-1/aerospike-app/aerospike
+  tag: 17-dev
+replicaCount: 1
+service:
+  nodePort: 30081
+  port: 80
+  type: NodePort
