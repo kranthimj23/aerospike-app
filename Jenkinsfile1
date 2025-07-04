@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    environment {
+        ANSIBLE_HOST = "34.47.218.147"           // Replace with Ansible VM IP
+        SSH_USER     = "root"            // Replace with SSH user on Ansible VM
+        PLAYBOOK     = "/root/git_sparse2.yml"         // Full path to your playbook
+        INVENTORY    = "/root/inventory.ini"    // Full path to your inventory
+    }
+
+    stages {
+        stage('Run Ansible Playbook') {
+            steps {
+                sshagent(credentials: ['ansible-ssh-key-id']) { // Replace with Jenkins credential ID
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ${SSH_USER}@${ANSIBLE_HOST} \\
+                        "ansible-playbook -i ${INVENTORY} ${PLAYBOOK}"
+                    """
+                }
+            }
+        }
+    }
+}
