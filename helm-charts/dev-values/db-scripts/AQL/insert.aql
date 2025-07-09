@@ -1,2 +1,0 @@
-INSERT INTO test.users (PK, name, age, email) VALUES ('user5', 'Rameez_1', 29, 'Rameez_1@gmail.com.com');
-INSERT INTO test.users (PK, name, age, email) VALUES ('user4', 'Siva_1', 28, 'Siva_1@gmail.com.com');
